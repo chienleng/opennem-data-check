@@ -1,4 +1,6 @@
 <script>
+  import { onMount } from 'svelte'
+
 	export let energy = null
 
 	function parseData(data) {
@@ -51,6 +53,15 @@
 	$: energyData = parseData(energy.data)
   $: energyDict = parseDict(energy.data)
 	$: columns = Object.keys(energyData[0])
+
+  $: hidden = true
+
+  onMount(() => {
+    setTimeout(() => {
+      hidden = false
+    }, 3000)
+  })
+
 </script>
 
 <header class="p-5">
@@ -68,7 +79,7 @@
 
 
 <div class="overflow-x-auto">
-  <table class="table table-compact">
+  <table class="table table-compact table-fixed" class:hidden>
     <thead class="bg-gray-50">
       <tr>
         <th />
