@@ -1,6 +1,6 @@
 <script context="module">
 	export async function load({ fetch }) {
-		const url = 'https://data.opennem.org.au/v3/stats/au/NEM/power/7d.json'
+		const url = 'https://data.opennem.org.au/v3/stats/au/NEM/energy/2021.json'
 		const response = await fetch(url)
 
 		return {

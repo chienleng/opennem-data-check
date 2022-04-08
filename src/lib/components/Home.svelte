@@ -26,7 +26,7 @@
 
   function parseDict(data) {
     const dict = {}
-    
+
     data.forEach(d => {
       dict[d.id] = d.fuel_tech
     })
@@ -77,32 +77,38 @@
   </div>
 </header>
 
-
-<div class="overflow-x-auto">
-  <table class="table table-compact table-fixed" class:hidden>
-    <thead class="bg-gray-50">
-      <tr>
-        <th />
-        {#each columns as column}
-          <th>
-            {getLabel(column)}
-          </th>
-        {/each}
-      </tr>
-    </thead>
-    <tbody>
-      {#each energyData as row, i}
-        <tr>
-          <th>{i + 1}</th>
-          {#each Object.entries(row) as [key, value]}
-            <td>
-              <div class="tooltip" data-tip={getLabel(key)}>
-                {value}
-              </div>
-            </td>
+<div class="flex">
+  <div class="w-1/2 h-96 p-1">
+    <div class="overflow-auto">
+      <table class="table table-compact table-fixed" class:hidden>
+        <thead class="bg-gray-50">
+          <tr>
+            <th />
+            {#each columns as column}
+              <th>
+                {getLabel(column)}
+              </th>
+            {/each}
+          </tr>
+        </thead>
+        <tbody>
+          {#each energyData as row, i}
+            <tr>
+              <th>{i + 1}</th>
+              {#each Object.entries(row) as [key, value]}
+                <td>
+                  <div class="tooltip" data-tip={getLabel(key)}>
+                    {value}
+                  </div>
+                </td>
+              {/each}
+            </tr>
           {/each}
-        </tr>
-      {/each}
-    </tbody>
-  </table>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="w-1/2 p-1">Block</div>
 </div>
+
