@@ -6,8 +6,6 @@ To review and check backend source data and frontend summarising the data.
 
 ### Installation
 
-A step by step guide that will tell you how to get the development environment up and running.
-
 ```
 pnpm install
 ```
