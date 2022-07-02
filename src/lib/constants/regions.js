@@ -4,27 +4,27 @@ export default Object.freeze([
     text: 'All Regions'
   },
   {
-    value: 'nem',
+    value: 'NEM',
     text: 'NEM'
   },
   {
-    value: 'nsw1',
+    value: 'NSW1',
     text: 'New South Wales'
   },
   {
-    value: 'qld1',
+    value: 'QLD1',
     text: 'Queensland'
   },
   {
-    value: 'sa1',
+    value: 'SA1',
     text: 'South Australia'
   },
   {
-    value: 'tas1',
+    value: 'TAS1',
     text: 'Tasmania'
   },
   {
-    value: 'vic1',
+    value: 'VIC1',
     text: 'Victoria'
   }
 ])
