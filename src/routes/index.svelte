@@ -1,19 +1,18 @@
 <script>
 	import { onMount } from 'svelte'
 	import { page } from '$app/stores'
-	import { transformToEnergyDict, transformToEnergyData } from '$lib/modules/parser'
+	import { transformToEnergyDict, transformToEnergyData, filterByType } from '$lib/modules/parser'
+	import { fetchData } from '$lib/modules/api'
 	import regionOptions from '$lib/constants/regions'
 	import FormSelect from '$lib/components/form/Select.svelte'
 	import DataTable from '$lib/components/DataTable.svelte'
 
-	export let energy = null
 	export let items = null
+	let energy = null
 	let baseUrl = ''
-	let selectedRegion = 'nem'
+	let selectedRegion = 'tas1'
 	let selectedTimeRange = '2021'
-	let selectedType = 'energy'
-
-	$: console.log('energy', energy)
+	let selectedType = '.energy'
 
 	$: stats = energy
 		? {
@@ -28,25 +27,17 @@
 	/** @type {Array} */
 	$: energyData = energy ? transformToEnergyData(energy.data) : []
 	/** @type {Object} */
-	$: energyDict = energy ? transformToEnergyDict(energy?.data) : {}
+	$: energyDict = energy ? transformToEnergyDict(energy.data) : {}
 	/** @type {Array} */
-	$: columns = energyData.length ? Object.keys(energyData[0]) : []
+	$: columns = energyData.length ? filterByType(selectedType, Object.keys(energyData[0])) : []
 
-	$: res = fetchData(baseUrl, selectedRegion, selectedTimeRange, selectedType)
-
-	$: console.log(items)
-
-	async function fetchData(base, region, timeRange, type) {
-		console.log(region, timeRange, type)
-		const basePath = 'https://data.opennem.org.au/v3/stats/au/'
-		// const url = `${basePath}${region}/${type}/${timeRange}.json`
-		// const response = await fetch(url)
-
-		if (base) {
-			const url = `${base}data.json?region=${region}&time-range=${timeRange}&type=${type}`
-			energy = await fetch(url).then((res) => res.json())
-		}
+	$: if (baseUrl) {
+		fetchData(baseUrl, selectedRegion, selectedTimeRange, selectedType).then((r) => (energy = r))
 	}
+
+	$: console.log('energy', energy)
+	$: console.log('columns', columns)
+	$: console.log('energyData', energyData)
 
 	onMount(() => (baseUrl = window.location.href))
 </script>
@@ -60,8 +51,9 @@
 		label="Type"
 		name="type"
 		options={[
-			{ text: 'Energy', value: 'energy' },
-			{ text: 'Emissions', value: 'emissions' }
+			{ text: 'Energy', value: '.energy' },
+			{ text: 'Emissions', value: '.emissions' },
+			{ text: 'Market value', value: '.market_value' }
 		]}
 		bind:value={selectedType}
 	/>
@@ -75,6 +67,8 @@
 		]}
 		bind:value={selectedTimeRange}
 	/>
+
+	<hr class="my-6" />
 
 	<DataTable {columns} tableData={energyData} tableDict={energyDict} />
 </main>
