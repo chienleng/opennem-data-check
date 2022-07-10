@@ -1,36 +1,6 @@
-import parseISO from 'date-fns/parseISO'
-import addDays from 'date-fns/addDays'
-import addHours from 'date-fns/addHours'
-import addMilliseconds from 'date-fns/addMilliseconds'
-import { zonedTimeToUtc, utcToZonedTime, format, getTimezoneOffset, formatInTimeZone } from 'date-fns-tz'
-import enAU from 'date-fns/locale/en-AU'
-import { data } from 'autoprefixer'
-
-function transform(item) {
-	const { id, type, units, data_type, fuel_tech, code, history } = item
-	const { data, interval, start, last } = history
-	// console.log(id, type, units, data_type, fuel_tech, code)
-	// console.log(data, interval, start, last)
-
-	// type: energy, market_value, power?, emissions,
-
-	const dataset = new Map()
-	const zonedDateTime = (date) => formatInTimeZone(date, '+10:00', 'yyyy-MM-dd HH:mm:ssXXX')
-
-	const parsed = parseISO(start)
-	console.log('parsed', parsed, zonedDateTime(parsed))
-
-	let currentDateTime = parsed
-
-	data.forEach(d => {
-		dataset.set(currentDateTime, {
-			[id]: d
-		})
-
-		currentDateTime = addMilliseconds(currentDateTime, 8.64e+7)
-	})
-	console.log('dataset', dataset)
-}
+import parseISO from 'date-fns/parseISO/index.js'
+import addHours from 'date-fns/addHours/index.js'
+import { formatInTimeZone } from 'date-fns-tz'
 
 function generateTimestampMap(responseData) {
 	const dataset = new Map()
