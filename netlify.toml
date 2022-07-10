@@ -1,1 +1,2 @@
-pnpm build || ( npm install pnpm && pnpm build )
+[build]
+  command = "pnpm build || ( npm install pnpm && pnpm build )"
