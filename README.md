@@ -1,17 +1,38 @@
-# OpenNEM data check
+# create-svelte
 
-To review and check backend source data and frontend summarising the data.
+Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
 
-## Getting Started
+## Creating a project
 
-### Installation
+If you're seeing this, you've probably already done this step. Congrats!
 
+```bash
+# create a new project in the current directory
+npm init svelte
+
+# create a new project in my-app
+npm init svelte my-app
 ```
-pnpm install
+
+## Developing
+
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+
+```bash
+npm run dev
+
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
 ```
 
-## Run locally
+## Building
 
+To create a production version of your app:
+
+```bash
+npm run build
 ```
-pnpm run dev
-```
+
+You can preview the production build with `npm run preview`.
+
+> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
