@@ -23,44 +23,44 @@ Groups[GROUP_SOLAR_RESIDUAL] = SolarResidualGroup
 export const ftGroups = Object.keys(Groups)
 
 export function getAllGroups(powerEnergyDomains, type) {
-  const parsed = {}
-  Object.keys(Groups).forEach(key => {
-    parsed[key] =
-      key === 'Default'
-        ? powerEnergyDomains
-        : parseDomains(powerEnergyDomains, Groups[key], type).reverse()
-  })
-  return parsed
+	const parsed = {}
+	Object.keys(Groups).forEach((key) => {
+		parsed[key] =
+			key === 'Default'
+				? powerEnergyDomains
+				: parseDomains(powerEnergyDomains, Groups[key], type).reverse()
+	})
+	return parsed
 }
 
 function parseDomains(domains, dict, type) {
-  const groupDomains = []
-  if (dict) {
-    const order = dict.FUEL_TECH_ORDER
+	const groupDomains = []
+	if (dict) {
+		const order = dict.FUEL_TECH_ORDER
 
-    order.forEach(id => {
-      const grouping = dict.FUEL_TECH_GROUP[id]
-      const find = domains.find(d => grouping.includes(d.fuelTech))
+		order.forEach((id) => {
+			const grouping = dict.FUEL_TECH_GROUP[id]
+			const find = domains.find((d) => grouping.includes(d.fuelTech))
 
-      if (find) {
-        const domainIds = []
-        grouping.forEach(g => {
-          const domain = domains.find(d => d.fuelTech === g)
-          if (domain) domainIds.push(domain.id)
-        })
-        groupDomains.push({
-          id: `${id}.${type}`,
-          domain: `${id}.${type}`,
-          label: dict.FUEL_TECH_LABEL[id],
-          colour: dict.FUEL_TECH_GROUP_COLOUR[id],
-          category: dict.FUEL_TECH_CATEGORY[id],
-          type: find.type,
-          group: id,
-          domainIds
-        })
-      }
-    })
-  }
+			if (find) {
+				const domainIds = []
+				grouping.forEach((g) => {
+					const domain = domains.find((d) => d.fuelTech === g)
+					if (domain) domainIds.push(domain.id)
+				})
+				groupDomains.push({
+					id: `${id}.${type}`,
+					domain: `${id}.${type}`,
+					label: dict.FUEL_TECH_LABEL[id],
+					colour: dict.FUEL_TECH_GROUP_COLOUR[id],
+					category: dict.FUEL_TECH_CATEGORY[id],
+					type: find.type,
+					group: id,
+					domainIds
+				})
+			}
+		})
+	}
 
-  return groupDomains.reverse()
+	return groupDomains.reverse()
 }

@@ -7,68 +7,136 @@
 	import FormSelect from '$lib/components/form/Select.svelte'
 	import DataTable from '$lib/components/DataTable.svelte'
 
-	export let items = null
 	let energy = null
 	let baseUrl = ''
 	let selectedRegion = 'tas1'
 	let selectedTimeRange = '2021'
 	let selectedType = '.energy'
+	let tableData = []
+	let selectedRowsSet = new Set()
+	let selectedRows = []
+	let datatableEl
 
-	$: stats = energy
-		? {
-				code: energy.code,
-				created: energy.created_at,
-				network: energy.network,
-				type: energy.type,
-				version: energy.version
-		  }
-		: null
-
-	/** @type {Array} */
-	$: energyData = energy ? transformToEnergyData(energy.data) : []
 	/** @type {Object} */
 	$: energyDict = energy ? transformToEnergyDict(energy.data) : {}
+
 	/** @type {Array} */
-	$: columns = energyData.length ? filterByType(selectedType, Object.keys(energyData[0])) : []
+	$: mappedData = energy ? transformToEnergyData(energy.data)[1] : []
+	$: dataKeys = Object.keys(energyDict)
+	$: for (const [key, value] of mappedData) {
+		const obj = {
+			datetime: value.zonedDateTime
+		}
+
+		dataKeys.forEach((k) => {
+			const keyValue = value[k]?.value
+
+			obj[k] = keyValue
+		})
+
+		tableData = [...tableData, obj]
+	}
+	$: columns = tableData.length ? filterByType(selectedType, dataKeys) : []
 
 	$: if (baseUrl) {
-		fetchData(baseUrl, selectedRegion, selectedTimeRange, selectedType).then((r) => (energy = r))
+		fetchData(baseUrl, selectedRegion, selectedTimeRange, selectedType).then((r) => {
+			tableData = []
+			selectedRowsSet.clear()
+			selectedRows = []
+			energy = r
+		})
 	}
 
 	$: console.log('energy', energy)
 	$: console.log('columns', columns)
-	$: console.log('energyData', energyData)
+	$: console.log('tableData', tableData)
+	$: console.log('columns', columns)
+	$: console.log('energyDict', energyDict)
 
 	onMount(() => (baseUrl = window.location.href))
+
+	function handleRowSelect(event) {
+		const index = event.detail.index
+
+		if (selectedRowsSet.has(index)) {
+			selectedRowsSet.delete(index)
+		} else {
+			selectedRowsSet.add(index)
+		}
+
+		const arr = []
+		for (const [key, value] of selectedRowsSet.entries()) {
+			arr.push(value)
+		}
+
+		selectedRows = arr
+	}
+
+	function handleCopy() {
+		const headerCols = ['datetime', ...columns]
+		const rows = []
+		console.log('tableContents', headerCols, tableData)
+
+		tableData.forEach((d) => {
+			let row = []
+			headerCols.forEach((k, i) => {
+				row.push(d[k])
+			})
+			rows.push(row)
+		})
+
+		const csv =
+			'data:text/csv;charset=utf-8,' +
+			headerCols.join(',') +
+			'\n' +
+			rows.map((r) => r.join(',')).join('\n')
+
+		console.log('csv', csv)
+
+		var encodedUri = encodeURI(csv)
+		window.open(encodedUri)
+	}
 </script>
 
 <main class="p-6">
-	<header>
-		<h1>Data check</h1>
+	<header class="flex gap-2 items-center justify-center">
+		<FormSelect label="Region" name="region" options={regionOptions} bind:value={selectedRegion} />
+		<FormSelect
+			label="Type"
+			name="type"
+			options={[
+				{ text: 'Energy', value: '.energy' },
+				{ text: 'Emissions', value: '.emissions' },
+				{ text: 'Market value', value: '.market_value' }
+			]}
+			bind:value={selectedType}
+		/>
+		<FormSelect
+			label="Data"
+			name="datafile"
+			options={[
+				{ text: '7d', value: '7d' },
+				{ text: '2021', value: '2021' }
+			]}
+			bind:value={selectedTimeRange}
+		/>
 	</header>
-
-	<FormSelect
-		label="Type"
-		name="type"
-		options={[
-			{ text: 'Energy', value: '.energy' },
-			{ text: 'Emissions', value: '.emissions' },
-			{ text: 'Market value', value: '.market_value' }
-		]}
-		bind:value={selectedType}
-	/>
-	<FormSelect label="Region" name="region" options={regionOptions} bind:value={selectedRegion} />
-	<FormSelect
-		label="Data"
-		name="datafile"
-		options={[
-			{ text: '7d', value: '7d' },
-			{ text: '2021', value: '2021' }
-		]}
-		bind:value={selectedTimeRange}
-	/>
 
 	<hr class="my-6" />
 
-	<DataTable {columns} tableData={energyData} tableDict={energyDict} />
+	{#if tableData.length}
+		<button
+			on:click={handleCopy}
+			class="mb-3 rounded border px-2 py-1 bg-slate-100 hover:bg-slate-50">Download as CSV</button
+		>
+		<DataTable
+			bind:el={datatableEl}
+			{columns}
+			{tableData}
+			{selectedRows}
+			rowHeader="datetime"
+			tableDict={energyDict}
+			on:selectRow={handleRowSelect}
+		/>
+	{/if}
 </main>

@@ -31,31 +31,31 @@ export const ROOFTOP_SOLAR = 'rooftop_solar'
 
 // Fuel tech default order
 export const DEFAULT_FUEL_TECH_ORDER = [
-  SOLAR_ROOFTOP,
-  ROOFTOP_SOLAR,
-  SOLAR_UTILITY,
-  SOLAR,
-  WIND,
-  HYDRO,
-  BATTERY_DISCHARGING,
-  GAS_WCMG,
-  GAS_LFG,
-  GAS_RECIP,
-  GAS_OCGT,
-  GAS_CCGT,
-  GAS_STEAM,
-  DISTILLATE,
-  BIOENERGY_BIOMASS,
-  BIOENERGY_BIOGAS,
-  BIOMASS,
-  COAL_BLACK,
-  BLACK_COAL,
-  COAL_BROWN,
-  BROWN_COAL,
-  IMPORTS,
-  EXPORTS,
-  PUMPS,
-  BATTERY_CHARGING
+	SOLAR_ROOFTOP,
+	ROOFTOP_SOLAR,
+	SOLAR_UTILITY,
+	SOLAR,
+	WIND,
+	HYDRO,
+	BATTERY_DISCHARGING,
+	GAS_WCMG,
+	GAS_LFG,
+	GAS_RECIP,
+	GAS_OCGT,
+	GAS_CCGT,
+	GAS_STEAM,
+	DISTILLATE,
+	BIOENERGY_BIOMASS,
+	BIOENERGY_BIOGAS,
+	BIOMASS,
+	COAL_BLACK,
+	BLACK_COAL,
+	COAL_BROWN,
+	BROWN_COAL,
+	IMPORTS,
+	EXPORTS,
+	PUMPS,
+	BATTERY_CHARGING
 ]
 
 // Fuel tech colour
@@ -172,68 +172,68 @@ FUEL_TECH_LABEL[SOLAR_UTILITY] = 'Solar (Utility)'
 FUEL_TECH_LABEL[SOLAR_ROOFTOP] = 'Solar (Rooftop)'
 
 export function getFuelTechObjs(fuelTechs, type) {
-  return Object.keys(fuelTechs).map(ft => {
-    return {
-      id: fuelTechs[ft],
-      domain: fuelTechs[ft],
-      fuelTech: ft,
-      label: FUEL_TECH_LABEL[ft],
-      colour: DEFAULT_FUEL_TECH_COLOUR[ft],
-      category: FUEL_TECH_CATEGORY[ft],
-      renewable: FUEL_TECH_RENEWABLE[ft],
-      type
-    }
-  })
+	return Object.keys(fuelTechs).map((ft) => {
+		return {
+			id: fuelTechs[ft],
+			domain: fuelTechs[ft],
+			fuelTech: ft,
+			label: FUEL_TECH_LABEL[ft],
+			colour: DEFAULT_FUEL_TECH_COLOUR[ft],
+			category: FUEL_TECH_CATEGORY[ft],
+			renewable: FUEL_TECH_RENEWABLE[ft],
+			type
+		}
+	})
 }
 
 export function isNetFuelTech(fuelTech) {
-  return (
-    fuelTech === BATTERY_CHARGING ||
-    fuelTech === BATTERY_DISCHARGING ||
-    fuelTech === HYDRO ||
-    fuelTech === PUMPS ||
-    fuelTech === EXPORTS ||
-    fuelTech === IMPORTS
-  )
+	return (
+		fuelTech === BATTERY_CHARGING ||
+		fuelTech === BATTERY_DISCHARGING ||
+		fuelTech === HYDRO ||
+		fuelTech === PUMPS ||
+		fuelTech === EXPORTS ||
+		fuelTech === IMPORTS
+	)
 }
 
 export function isCoal(fuelTech) {
-  return (
-    fuelTech === COAL_BROWN ||
-    fuelTech === COAL_BLACK ||
-    fuelTech === BROWN_COAL ||
-    fuelTech === BLACK_COAL
-  )
+	return (
+		fuelTech === COAL_BROWN ||
+		fuelTech === COAL_BLACK ||
+		fuelTech === BROWN_COAL ||
+		fuelTech === BLACK_COAL
+	)
 }
 
 export function isGas(fuelTech) {
-  return (
-    fuelTech === GAS_STEAM ||
-    fuelTech === GAS_CCGT ||
-    fuelTech === GAS_OCGT ||
-    fuelTech === GAS_RECIP ||
-    fuelTech === GAS_LFG ||
-    fuelTech === GAS_WCMG
-  )
+	return (
+		fuelTech === GAS_STEAM ||
+		fuelTech === GAS_CCGT ||
+		fuelTech === GAS_OCGT ||
+		fuelTech === GAS_RECIP ||
+		fuelTech === GAS_LFG ||
+		fuelTech === GAS_WCMG
+	)
 }
 
 export function isWind(fuelTech) {
-  return fuelTech === WIND
+	return fuelTech === WIND
 }
 
 export function isHydro(fuelTech) {
-  return fuelTech === HYDRO
+	return fuelTech === HYDRO
 }
 
 export function isSolar(fuelTech) {
-  return (
-    fuelTech === SOLAR_UTILITY ||
-    fuelTech === SOLAR_ROOFTOP ||
-    fuelTech === SOLAR ||
-    fuelTech === ROOFTOP_SOLAR
-  )
+	return (
+		fuelTech === SOLAR_UTILITY ||
+		fuelTech === SOLAR_ROOFTOP ||
+		fuelTech === SOLAR ||
+		fuelTech === ROOFTOP_SOLAR
+	)
 }
 
 export function isValidFuelTech(fuelTech) {
-  return FUEL_TECH_LABEL[fuelTech] !== undefined
+	return FUEL_TECH_LABEL[fuelTech] !== undefined
 }
