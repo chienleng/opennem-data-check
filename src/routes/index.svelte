@@ -1,6 +1,5 @@
 <script>
 	import { onMount } from 'svelte'
-	import { page } from '$app/stores'
 	import { transformToEnergyDict, transformToEnergyData, filterByType } from '$lib/modules/parser'
 	import { fetchData } from '$lib/modules/api'
 	import regionOptions from '$lib/constants/regions'
@@ -9,7 +8,7 @@
 
 	let energy = null
 	let baseUrl = ''
-	let selectedRegion = 'tas1'
+	let selectedRegion = 'NSW1'
 	let selectedTimeRange = '2021'
 	let selectedType = '.energy'
 	let tableData = []
