@@ -7,9 +7,15 @@ export async function get({ url }) {
 	// https://data.opennem.org.au/v3/stats/au/NEM/QLD1/energy/2021.json
 
 	const dataUrl = `https://data.opennem.org.au/v3/stats/au/NEM/${region}/energy/2021.json`
-	const response = await fetch(dataUrl)
 
-	return {
-		body: response.ok && (await response.json())
+	try {
+		const response = await fetch(dataUrl)
+
+		return {
+			body: response.ok && (await response.json())
+		}
+	} catch(e) {
+		return {}
 	}
+	
 }
