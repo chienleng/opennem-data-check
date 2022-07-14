@@ -8,18 +8,18 @@
 
 	let energy = null
 	let baseUrl = ''
-	let selectedRegion = 'NSW1'
-	let selectedTimeRange = '2021'
+	let selectedRegion = 'NEM'
+	let selectedTimeRange = '2022'
 	let selectedType = '.energy'
 	let tableData = []
 	let selectedRowsSet = new Set()
 	let selectedRows = []
 	let datatableEl
 
-	/** @type {Object} */
+	/** @type {{}} */
 	$: energyDict = energy ? transformToEnergyDict(energy.data) : {}
 
-	/** @type {Array} */
+	/** @type {[]} */
 	$: mappedData = energy ? transformToEnergyData(energy.data)[1] : []
 	$: dataKeys = Object.keys(energyDict)
 	$: for (const [key, value] of mappedData) {
@@ -114,8 +114,10 @@
 			label="Data"
 			name="datafile"
 			options={[
-				{ text: '7d', value: '7d' },
-				{ text: '2021', value: '2021' }
+				{ text: '2022', value: '2022' },
+				{ text: '2021', value: '2021' },
+				{ text: '2020', value: '2020' },
+				{ text: '2019', value: '2019' }
 			]}
 			bind:value={selectedTimeRange}
 		/>

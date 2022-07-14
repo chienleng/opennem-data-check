@@ -35,7 +35,7 @@
 	}
 </script>
 
-<div class="h-[500px] overflow-auto rounded border">
+<div class="h-[77vh] overflow-auto rounded border">
 	<table class="min-w-full table-auto" bind:this={el}>
 		<thead class="bg-gray-50 text-right">
 			<tr>
@@ -68,7 +68,7 @@
 				>
 					{#if rowHeader}
 						<th
-							class="font-mono text-left text-sm sticky left-0 z-9 bg-gray-50 bg-opacity-95 whitespace-nowrap"
+							class="font-mono text-red-900 text-left text-xs sticky left-0 z-9 bg-gray-50 bg-opacity-95 whitespace-nowrap"
 						>
 							<div class="px-2">
 								{getValue(rowHeader, row)}

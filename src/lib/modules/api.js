@@ -6,7 +6,7 @@ export async function fetchData(basePath, region, timeRange, type) {
 	let data = null
 
 	if (basePath) {
-		const url = `${basePath}data.json?region=${region}&time-range=${timeRange}&type=${type}`
+		const url = `${basePath}data.json?region=${region}&time-range=${timeRange}`
 		await fetch(url)
 			.then((res) => res.json())
 			.then((d) => (data = d))
